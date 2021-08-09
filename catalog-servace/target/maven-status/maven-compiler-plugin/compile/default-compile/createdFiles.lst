@@ -1,0 +1,9 @@
+com/githab/cs/controller/ProductOfferingController.class
+com/githab/cs/App.class
+com/githab/cs/model/searchParams/SearchParams.class
+com/githab/cs/controller/CatalogController.class
+com/githab/cs/model/definition/Money.class
+com/githab/cs/service/api/ProductOfferingService.class
+com/githab/cs/entity/ProductOffering/ProductOffering.class
+com/githab/cs/model/ProductOfferingPrice/ProductOfferingPrice.class
+com/githab/cs/service/api/RepositorySearchService.class
