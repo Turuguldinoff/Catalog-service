@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class RepositoryProductOffering implements RepositoryBase<String, ProductOfferingEntity> {
 
     private DSLContext dsl;
-    // private final
 
     @Override
     public ProductOfferingEntity create(ProductOfferingEntity product) {
