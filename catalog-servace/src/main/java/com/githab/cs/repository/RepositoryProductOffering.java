@@ -2,8 +2,6 @@ package com.githab.cs.repository;
 
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +11,6 @@ import com.githab.cs.model.searchParams.SearchParams;
 import com.sample.model.Tables;
 
 import org.jooq.DSLContext;
-import org.jooq.Table;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -81,7 +78,6 @@ public class RepositoryProductOffering implements RepositoryBase<String, Product
 
     @Override
     public List<ProductOfferingEntity> search(SearchParams params) {
-        // TODO Auto-generated method stub
         return null;
     }
 
