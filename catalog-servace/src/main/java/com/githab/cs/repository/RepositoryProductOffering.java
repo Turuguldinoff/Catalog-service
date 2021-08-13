@@ -50,7 +50,7 @@ public class RepositoryProductOffering implements RepositoryBase<String, Product
         String jsonb;
         try {
             jsonb = m.writeValueAsString(product);
-            Timestamp time = Timestamp.valueOf(product.getLacttime().toLocalDateTime());
+            Timestamp time = Timestamp.valueOf(OffsetDateTime.now().toLocalDateTime());
             ProductOfferingEntity p = dsl.update(Tables.PRODUCT_OFFERING)
             .set(Tables.PRODUCT_OFFERING.BODY, jsonb)
             .set(Tables.PRODUCT_OFFERING.LAST_UPDATE, time)
