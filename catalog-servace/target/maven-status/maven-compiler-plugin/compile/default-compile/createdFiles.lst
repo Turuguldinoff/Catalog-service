@@ -1,9 +1,0 @@
-com/sample/model/tables/pojos/ProductOffering.class
-com/sample/model/tables/records/FlywaySchemaHistoryRecord.class
-com/sample/model/Keys.class
-com/sample/model/tables/records/ProductOfferingRecord.class
-com/sample/model/Indexes$Indexes0.class
-com/sample/model/Indexes.class
-com/sample/model/Tables.class
-com/sample/model/Keys$UniqueKeys0.class
-com/sample/model/tables/pojos/FlywaySchemaHistory.class
