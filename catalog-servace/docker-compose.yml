@@ -1,0 +1,25 @@
+version: '3'
+
+services: 
+    postgresbd:
+        image: postgres
+        container_name: mypostgres
+        environment:
+            - POSTGRES_PASSWORD=ujhsysx11
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=catalog
+        ports:
+            - '5431:5431'
+        restart: unless-stopped
+    pgadmin:
+        image: dpage/pgadmin4
+        depends_on:
+            - postgresbd
+        ports:
+            - "5555:80"
+        # networks:
+        #     - app-tier
+        environment:
+            PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+            PGADMIN_DEFAULT_PASSWORD: admin
+        restart: unless-stopped

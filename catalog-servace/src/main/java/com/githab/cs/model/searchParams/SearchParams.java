@@ -7,4 +7,6 @@ public class SearchParams {
     Map <String, List> filters;
     int offset;
     int limit;
+
+    // SearchParams()
 }

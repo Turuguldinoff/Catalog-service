@@ -1,6 +1,5 @@
 package com.githab.cs.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,7 +29,7 @@ public class ProductOfferingController {
     }
 
     @GetMapping(value = "/productOffering")
-    public ResponseEntity <?> searchProductOffering() {
-        return  ResponseEntity.ok("ok");
+    public void searchProductOffering() {
+        
     }
 }

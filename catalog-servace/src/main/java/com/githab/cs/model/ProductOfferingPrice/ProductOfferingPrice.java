@@ -10,4 +10,12 @@ public class ProductOfferingPrice {
         this.id = id;
         this.price = price;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public Money getPrice() {
+        return price;
+    }
 }

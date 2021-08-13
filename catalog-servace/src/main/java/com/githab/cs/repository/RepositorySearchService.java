@@ -1,6 +1,8 @@
 package com.githab.cs.repository;
 
-import com.githab.cs.entity.ProductOffering.ProductOffering;
+import java.util.List;
+
+import com.githab.cs.model.ProductOffering.ProductOffering;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface RepositorySearchService extends JpaRepository<String, ProductOffering>{
     public ProductOffering searchId();
     public ProductOffering searchName();
-    public ProductOffering searchLatTime();
-    public ProductOffering searchCategoty();
+    public ProductOffering searchLastTime();
+    public List<ProductOffering> searchCategoty();
 }
