@@ -1,2 +1,4 @@
 /catalog-servace/.vscode
-
+/catalog-servace/target
+*.class
+.gitignore

@@ -3,65 +3,47 @@ package com.githab.cs.model.ProductOffering;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import com.githab.cs.entity.ProductOfferingBodyEntity;
+import com.githab.cs.entity.ProductOfferingEntity;
 import com.githab.cs.model.ProductOfferingPrice.ProductOfferingPrice;
 
-@Entity
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductOffering {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
-    private String name;
-    private String description;
-    private OffsetDateTime lastTime;// перенести в репозиторий
-    private ArrayList<String> category;
-    private ArrayList <ProductOfferingPrice> productOfferingPrice;
+	String id;
+    String name;
+    String description;
+    ArrayList<String> category;
+    ArrayList <ProductOfferingPrice> productOfferingPrice;
+    OffsetDateTime lastTime;
 
-    public void setName(String name) {
-		this.name = name;
-		// this.lastTime;
+	public static ProductOfferingEntity convert(ProductOffering prod) {
+		return new ProductOfferingEntity(
+			prod.id,
+			new ProductOfferingBodyEntity(
+				prod.name,
+				prod.description,
+				prod.category,
+				prod.productOfferingPrice
+			),
+			prod.lastTime
+		);
+		
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-		// this.lastTime;
-	}
-
-	public void setCategory(ArrayList<String> category) {
-		this.category = category;
-		// this.lastTime;
-	}
-
-	public void setProductOfferingPrice(ArrayList<ProductOfferingPrice> productOfferingPrice) {
-		this.productOfferingPrice = productOfferingPrice;
-		// this.lastTime;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public OffsetDateTime getLastTime() {
-		return lastTime;
-	}
-
-	public ArrayList<String> getCategory() {
-		return category;
-	}
-
-	public ArrayList<ProductOfferingPrice> getProductOfferingPrice() {
-		return productOfferingPrice;
+	public static ProductOffering convertD(ProductOfferingEntity prod) {
+		return new ProductOffering(
+			prod.getId(),
+			prod.getBody().getName(),
+			prod.getBody().getDescription(),
+			prod.getBody().getCategory(),
+			prod.getBody().getProductOfferingPrice(),
+			prod.getLastTime()
+		);
+		
 	}
 }

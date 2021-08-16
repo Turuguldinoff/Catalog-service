@@ -1,41 +1,24 @@
 package com.githab.cs.entity;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.*;
 
-import com.githab.cs.model.ProductOfferingPrice.ProductOfferingPrice;
-
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+@Data
 public class ProductOfferingEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    String id;
-    String name;
-    String description;
-    OffsetDateTime lastTime = OffsetDateTime.now();
-    ArrayList<String> category;
-    ArrayList <ProductOfferingPrice> productOfferingPrice;
-    public OffsetDateTime getLacttime() {
-        return lastTime;
-    }
-    public String getId() {
-        return id;
-    }
-    public ArrayList<String> getCategory() {
-        return category;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public String getName() {
-        return name;
-    }
-    public ArrayList<ProductOfferingPrice> getProductOfferingPrice() {
-        return productOfferingPrice;
-    }
+    private String id;
+    private ProductOfferingBodyEntity body;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private OffsetDateTime lastTime;
 }
