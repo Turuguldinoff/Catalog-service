@@ -8,6 +8,7 @@ import com.sample.model.Tables;
 import com.sample.model.tables.records.ProductOfferingRecord;
 
 import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RepositoryProductOffering implements RepositoryBase<String, ProductOfferingEntity> {
 
+    @Autowired
     private DSLContext dsl;
 
     @Override
-    public void create(ProductOfferingEntity product) {
-        dsl.insertInto(Tables.PRODUCT_OFFERING)
+    public ProductOfferingEntity create(ProductOfferingEntity product) {
+        return dsl.insertInto(Tables.PRODUCT_OFFERING)
         .set(Tables.PRODUCT_OFFERING.ID, product.getId())
         .set(Tables.PRODUCT_OFFERING.BODY, product.getBody())
         .set(Tables.PRODUCT_OFFERING.LAST_UPDATE, product.getLastTime().toLocalDateTime())
@@ -51,7 +53,7 @@ public class RepositoryProductOffering implements RepositoryBase<String, Product
     public void delete(String id) {
             dsl.delete(Tables.PRODUCT_OFFERING)
             .where(Tables.PRODUCT_OFFERING.ID.eq(id))
-            .returning().fetchOne().into(ProductOfferingEntity.class);
+            .returning().fetchOne();//.into(ProductOfferingEntity.class);
     }
 
     @Override

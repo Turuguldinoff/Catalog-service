@@ -37,7 +37,7 @@ public class ProductOfferingController {
     }
 
     @PatchMapping(value = "/productOffering/{id}")
-    public ResponseEntity<?> upProductOffering(@RequestBody ProductOffering prod, String id) {
+    public ResponseEntity<?> upProductOffering(ProductOffering prod, String id) {
         return ResponseEntity.status(HttpStatus.OK).body((pro.upProductOffering(ProductOffering.convert(prod))));
 
     }
@@ -46,7 +46,7 @@ public class ProductOfferingController {
     public ResponseEntity<?> deleteProductOffering(String id) {
             pro.removeProductOffering(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("Удален тикет с id: " + id);
+                    .body("Удален продуке с id: " + id);
         
     }
 

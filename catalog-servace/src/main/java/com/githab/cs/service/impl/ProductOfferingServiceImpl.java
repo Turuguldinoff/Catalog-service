@@ -23,19 +23,19 @@ public class ProductOfferingServiceImpl implements ProductOfferingService{
     private static final AtomicInteger ID = new AtomicInteger();
 
     @Override
-    public ProductOffering createProductOffering(ProductOfferingEntity product) {
+    public ProductOfferingEntity createProductOffering(ProductOfferingEntity product) {
         final int Id =ID.incrementAndGet();
         product.setLastTime(OffsetDateTime.now());
         product.setId(""+Id);
-        repositoryProductOffering.create(product);
-        return ProductOffering.convertD(product);
+        ProductOfferingEntity prod = repositoryProductOffering.create(product);
+        return prod;
     }
 
     @Override
-    public ProductOffering upProductOffering(ProductOfferingEntity product) {
+    public ProductOfferingEntity upProductOffering(ProductOfferingEntity product) {
         product.setLastTime(OffsetDateTime.now());
         repositoryProductOffering.update(product);
-        return ProductOffering.convertD(product);
+        return product;
     }
 
     @Override
