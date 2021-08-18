@@ -1,6 +1,8 @@
 package com.githab.cs.repository;
 
 import java.util.List;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 import com.githab.cs.entity.ProductOfferingEntity;
 import com.githab.cs.model.searchParams.SearchParams;
@@ -25,16 +27,16 @@ public class RepositoryProductOffering implements RepositoryBase<String, Product
         return dsl.insertInto(Tables.PRODUCT_OFFERING)
         .set(Tables.PRODUCT_OFFERING.ID, product.getId())
         .set(Tables.PRODUCT_OFFERING.BODY, product.getBody())
-        .set(Tables.PRODUCT_OFFERING.LAST_UPDATE, product.getLastTime().toLocalDateTime())
+        .set(Tables.PRODUCT_OFFERING.LAST_UPDATE, OffsetDateTime.now().toLocalDateTime())
         .returning().fetchOne().into(ProductOfferingEntity.class);
     }
 
     @Override
-    public ProductOfferingEntity update(ProductOfferingEntity product) {
+    public ProductOfferingEntity update(ProductOfferingEntity product, String id) {
             ProductOfferingEntity p = dsl.update(Tables.PRODUCT_OFFERING)
             .set(Tables.PRODUCT_OFFERING.BODY, product.getBody())
-            .set(Tables.PRODUCT_OFFERING.LAST_UPDATE, product.getLastTime().toLocalDateTime())
-            .where(Tables.PRODUCT_OFFERING.ID.eq(product.getId()))
+            .set(Tables.PRODUCT_OFFERING.LAST_UPDATE, OffsetDateTime.now().toLocalDateTime())
+            .where(Tables.PRODUCT_OFFERING.ID.eq(id))
             .returning().fetchOne().into(ProductOfferingEntity.class);
             return p;
     }
@@ -46,14 +48,16 @@ public class RepositoryProductOffering implements RepositoryBase<String, Product
             .fetchOne();
         if (p == null)
             return null;
-        return p.into(ProductOfferingEntity.class);
+        ProductOfferingEntity prod = p.into(ProductOfferingEntity.class);
+        prod.setLastTime(p.getLastUpdate().atOffset(ZoneOffset.UTC));
+        return prod;
     }
 
     @Override
     public void delete(String id) {
             dsl.delete(Tables.PRODUCT_OFFERING)
             .where(Tables.PRODUCT_OFFERING.ID.eq(id))
-            .returning().fetchOne();//.into(ProductOfferingEntity.class);
+            .returning().fetchOne();
     }
 
     @Override

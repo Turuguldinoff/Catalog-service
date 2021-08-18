@@ -1,8 +1,7 @@
 package com.githab.cs.service.impl;
 
-import java.time.OffsetDateTime;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 
 import com.githab.cs.entity.ProductOfferingEntity;
 import com.githab.cs.model.ProductOffering.ProductOffering;
@@ -20,21 +19,17 @@ import lombok.RequiredArgsConstructor;
 public class ProductOfferingServiceImpl implements ProductOfferingService{
     @Autowired
     RepositoryProductOffering repositoryProductOffering;
-    private static final AtomicInteger ID = new AtomicInteger();
 
     @Override
     public ProductOfferingEntity createProductOffering(ProductOfferingEntity product) {
-        final int Id =ID.incrementAndGet();
-        product.setLastTime(OffsetDateTime.now());
-        product.setId(""+Id);
+        product.setId(UUID.randomUUID().toString());
         ProductOfferingEntity prod = repositoryProductOffering.create(product);
         return prod;
     }
 
     @Override
-    public ProductOfferingEntity upProductOffering(ProductOfferingEntity product) {
-        product.setLastTime(OffsetDateTime.now());
-        repositoryProductOffering.update(product);
+    public ProductOfferingEntity upProductOffering(ProductOfferingEntity product, String id) {
+        repositoryProductOffering.update(product, id);
         return product;
     }
 

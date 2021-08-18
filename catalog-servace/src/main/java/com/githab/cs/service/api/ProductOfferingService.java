@@ -9,7 +9,7 @@ import com.githab.cs.model.searchParams.SearchParams;
 public interface ProductOfferingService {
    
     public ProductOfferingEntity createProductOffering(ProductOfferingEntity product);
-    public ProductOfferingEntity upProductOffering(ProductOfferingEntity product);
+    public ProductOfferingEntity upProductOffering(ProductOfferingEntity product, String id);
     public Optional<ProductOfferingEntity> getProductOfferingById(String id);
     public void removeProductOffering(String id);
     public ProductOffering searchProductOffering(SearchParams params);

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
+import org.springframework.data.annotation.Id;
+
 import lombok.*;
 
 @AllArgsConstructor
@@ -16,6 +18,8 @@ import lombok.*;
 @EqualsAndHashCode
 @Data
 public class ProductOfferingEntity {
+    @Id
+    
     private String id;
     private ProductOfferingBodyEntity body;
     @JsonDeserialize(using = LocalDateDeserializer.class)
