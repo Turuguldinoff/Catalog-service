@@ -1,14 +1,18 @@
 package com.githab.cs.repository;
 
 import java.util.List;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 import com.githab.cs.entity.ProductOfferingEntity;
 import com.githab.cs.model.searchParams.SearchParams;
 import com.sample.model.Tables;
 import com.sample.model.tables.records.ProductOfferingRecord;
 
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -60,9 +64,20 @@ public class RepositoryProductOffering implements RepositoryBase<String, Product
             .returning().fetchOne();
     }
 
-    @Override
     public List<ProductOfferingEntity> search(SearchParams params) {
-        return null;
+        if (params.getFilters().size() == 0) {
+            return dsl.selectFrom(Tables.PRODUCT_OFFERING)
+                .fetch().into(ProductOfferingEntity.class);
+        }else if (params.getFilters().containsKey("lastUpdate") && !params.getFilters().containsKey("catalog")) {   
+            ;
+            return dsl.selectFrom(Tables.PRODUCT_OFFERING)
+                // .where(Tables.PRODUCT_OFFERING.LAST_UPDATE.)
+                .fetch().into(ProductOfferingEntity.class);
+        } else {
+            return dsl.selectFrom(Tables.PRODUCT_OFFERING)
+                // .where(Tables.PRODUCT_OFFERING.LAST_UPDATE.between(params.getFilters().get("lastUpdate")., params.getFilters().get("lastUpdate")))
+                .fetch().into(ProductOfferingEntity.class);
+        }
     }
 
 }

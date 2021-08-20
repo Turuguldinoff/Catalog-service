@@ -2,12 +2,10 @@ package com.githab.cs.repository;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.jooq.Condition;
 
-@Repository
 public interface RepositorySearchService <ID, Entity>{
-    public Entity searchId(ID id);
-    public Entity searchName();
-    public Entity searchLastTime();
-    public List<Entity> searchCategoty();
+    public List<Entity> searchC(Condition condition);
+    public List<Entity> searchAll();
+
 }

@@ -1,6 +1,11 @@
 package com.githab.cs.controller;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.githab.cs.model.ProductOffering.ProductOffering;
+import com.githab.cs.model.searchParams.SearchParams;
 import com.githab.cs.service.api.ProductOfferingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -51,7 +57,12 @@ public class ProductOfferingController {
     }
 
     @GetMapping(value = "/productOffering")
-    public void searchProductOffering() {
+    public ResponseEntity<?> searchProductOffering(@RequestParam Map<String, String> p) {
 
+        // SearchParams par = new SearchParams(p, 0, 4);
+        return ResponseEntity.ok(pro.searchProductOffering(p)
+            .stream()
+            .map(ProductOffering::convertD)
+            .collect(Collectors.toList()));
     }
 }

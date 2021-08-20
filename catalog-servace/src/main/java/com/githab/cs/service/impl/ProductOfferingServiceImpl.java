@@ -1,16 +1,22 @@
 package com.githab.cs.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.githab.cs.entity.ProductOfferingEntity;
-import com.githab.cs.model.ProductOffering.ProductOffering;
-import com.githab.cs.model.searchParams.SearchParams;
 import com.githab.cs.repository.RepositoryProductOffering;
+import com.githab.cs.repository.RepositorySearchServiceImpl;
 import com.githab.cs.service.api.ProductOfferingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.jooq.Condition;
+import org.jooq.impl.DSL;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class ProductOfferingServiceImpl implements ProductOfferingService{
     @Autowired
     RepositoryProductOffering repositoryProductOffering;
+    @Autowired
+    RepositorySearchServiceImpl repositorySearchService;
 
     @Override
     public ProductOfferingEntity createProductOffering(ProductOfferingEntity product) {
@@ -45,26 +53,38 @@ public class ProductOfferingServiceImpl implements ProductOfferingService{
     }
 
     @Override
-    public ProductOffering searchProductOffering(SearchParams params) {
-        return null;
+    public List<ProductOfferingEntity> searchProductOffering(Map<String, String> params) {
+        if(params.size() == 0)
+            return repositorySearchService.searchAll();
+        return repositorySearchService.searchC(getConditionByParameters(params));
     }
 
-    // private static Map<String, String> columnsName(){
-    //     Map<String, String> tableMap = new HashMap<>();
-    //     Field<?>[] fields  = PUBLIC.PRODUCT_OFFERING.fields();
-    //     java.lang.reflect.Field[] fieldClass = ProductOfferingEntity.class.getDeclaredFields();
-    //     for (int i = 0; i < fieldClass.length; i++){
-    //         tableMap.put(fieldClass[i].getName(), fields[i].getName());
-    //     }
-    //     return tableMap;
-    // }
-    // private static Map<String, String> columnJsonName(){
-    //     Map<String, String> tableJsonMap = new HashMap<>();
-    //     java.lang.reflect.Field[] fieldClass = ProductOfferingBodyEntity.class.getDeclaredFields();
-    //     for (java.lang.reflect.Field aClass : fieldClass) {
-    //         tableJsonMap.put(aClass.getName(), aClass.getName());
-    //     }
-    //     return tableJsonMap;
-    // }
-    
+        private static Condition getConditionByParameters(Map<String, String> map){
+        Condition condition = DSL.trueCondition();
+        String names = "category";
+        String data = "lastUpdate";
+        if (map.containsKey(names) && map.containsKey(data)) {
+            condition = condition.and(AllParams(map.get(names),LocalDate.parse(map.get(data).substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-d")).atStartOfDay(), LocalDate.parse(map.get(data).substring(11), DateTimeFormatter.ofPattern("yyyy-MM-d")).atStartOfDay()));
+        }else{
+            if (map.containsKey(names)) {
+                    condition = condition.and(JsonStringCondition(map.get(names)));
+            }
+            if (map.containsKey(data)) {
+                condition = condition.and(ColumnData(LocalDate.parse(map.get(data).substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-d")).atStartOfDay(), LocalDate.parse(map.get(data).substring(11), DateTimeFormatter.ofPattern("yyyy-MM-d")).atStartOfDay()));
+            }
+        }
+        return condition;
+    }
+
+    private static String AllParams(String n, LocalDateTime a, LocalDateTime b) {
+        return String.format("body @> '{\"category\": \"%s\"}' AND last_update BETWEEN '%s' AND '%s'", n, a, b);
+    }
+
+    private static String JsonStringCondition( String list) {
+        return String.format("body @> '{\"category\": \"%s\"}'", list);
+    }
+
+    private static String ColumnData(LocalDateTime one, LocalDateTime two) {
+        return String.format("last_update BETWEEN '%s' AND '%s'",  one, two);
+    }
 }
