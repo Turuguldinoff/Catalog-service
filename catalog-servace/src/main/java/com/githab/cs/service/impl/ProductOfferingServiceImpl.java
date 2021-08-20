@@ -77,11 +77,11 @@ public class ProductOfferingServiceImpl implements ProductOfferingService{
     }
 
     private static String AllParams(String n, LocalDateTime a, LocalDateTime b) {
-        return String.format("body @> '{\"category\": \"%s\"}' AND last_update BETWEEN '%s' AND '%s'", n, a, b);
+        return String.format("body @> '{\"category\": [\"%s\"]}' AND last_update BETWEEN '%s' AND '%s'", n, a, b);
     }
 
     private static String JsonStringCondition( String list) {
-        return String.format("body @> '{\"category\": \"%s\"}'", list);
+        return String.format("body @> '{\"category\": [\"%s\"]}'", list);
     }
 
     private static String ColumnData(LocalDateTime one, LocalDateTime two) {
