@@ -1,10 +1,13 @@
 package com.githab.cs.repository;
 
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.githab.cs.entity.ProductOfferingEntity;
 import com.githab.cs.model.searchParams.SearchParams;
 import com.sample.model.Tables;
+import com.sample.model.tables.records.ProductOfferingRecord;
 
 import org.jooq.Condition;
 import org.jooq.DSLContext;
@@ -22,17 +25,28 @@ public class RepositorySearchServiceImpl implements RepositorySearchService<Sear
     
     @Override
     public List<ProductOfferingEntity> searchC(Condition condition) {
-        return dsl.selectFrom(Tables.PRODUCT_OFFERING)
+        List<ProductOfferingRecord> p = dsl.selectFrom(Tables.PRODUCT_OFFERING)
                 .where(condition)
-                .fetch()
-                .into(ProductOfferingEntity.class);
+                .fetch();
+        List<ProductOfferingEntity> prod = new ArrayList<ProductOfferingEntity>();
+        for (ProductOfferingRecord productOfferingRecord : p) {
+            prod.add(productOfferingRecord.into(ProductOfferingEntity.class));
+            prod.get(prod.size()-1).setLastTime(productOfferingRecord.getLastUpdate().atOffset(ZoneOffset.UTC));  
+        }
+        return prod;
     }
     
 
     @Override
     public List<ProductOfferingEntity> searchAll() {
-        return dsl.selectFrom(Tables.PRODUCT_OFFERING)
-                .fetch().into(ProductOfferingEntity.class);
+        List<ProductOfferingRecord> p = dsl.selectFrom(Tables.PRODUCT_OFFERING)
+                .fetch();
+        List<ProductOfferingEntity> prod = new ArrayList<ProductOfferingEntity>();
+        for (ProductOfferingRecord productOfferingRecord : p) {
+            prod.add(productOfferingRecord.into(ProductOfferingEntity.class));
+            prod.get(prod.size()-1).setLastTime(productOfferingRecord.getLastUpdate().atOffset(ZoneOffset.UTC));  
+        }
+        return prod;
     }
 
     

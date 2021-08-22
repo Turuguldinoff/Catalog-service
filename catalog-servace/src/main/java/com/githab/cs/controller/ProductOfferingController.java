@@ -1,7 +1,10 @@
 package com.githab.cs.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.githab.cs.model.ProductOffering.ProductOffering;
@@ -58,9 +61,19 @@ public class ProductOfferingController {
 
     @GetMapping(value = "/productOffering")
     public ResponseEntity<?> searchProductOffering(@RequestParam Map<String, String> p) {
-
-        // SearchParams par = new SearchParams(p, 0, 4);
-        return ResponseEntity.ok(pro.searchProductOffering(p)
+        Map <String, List<String>> f  = new HashMap<String, List<String>>();
+        Set<String> j = p.keySet();
+        String[] d;
+        for (String i : j) {
+            List<String> o = new ArrayList<String>(); 
+            d = p.get(i).split(",");
+            for (String string : d) {
+                o.add(string);
+            }
+            f.put(i, o);
+        }
+        SearchParams par = new SearchParams(f, 0, 4);
+        return ResponseEntity.ok(pro.searchProductOffering(par)
             .stream()
             .map(ProductOffering::convertD)
             .collect(Collectors.toList()));
